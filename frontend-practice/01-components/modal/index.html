@@ -1,0 +1,41 @@
+<button id="openBtn" style="display: block; width: 100px;height: 40px;border-radius: 5px;border: 0;cursor: pointer; background-color: rgb(92, 173, 231);"  >เปิด dialog Modal</button>
+<br>
+<button onclick="openModal()" style="display: block; width: 100px;height: 40px;border-radius: 5px;border: 0;cursor: pointer; background-color: rgb(92, 173, 231);" >เปิด Div Modal</button>
+
+<dialog id="myModal">
+    <div style="display: flex; justify-content:end">
+        <button id="closeBtn">ปิด</button>
+    </div>
+    <h2>dialog Modal</h2>
+    <p>วันนี้วันแรกในการเรียนรู้เกี่ยวกับสิ่งต่างๆใน HTML</p>
+</dialog>
+
+<div id="divModal" class="modal" style="display: none; position: fixed; background: rgba(0, 0, 0, 0.5);top: 0; left: 0; width: 100%; height: 100%;">
+    <div class="modal-content" style="
+        background: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        width: 50%;
+        ">
+        <div style="display: flex; justify-content:end ">
+            <span onclick="closeModal()" style=" display: inline-block;background-color: rgb(253, 125, 125); width: 20px; height: 20px;text-align: center;border-radius: 20px;">&times;</span>
+        </div>
+
+        <h2>Div Modal</h2>
+        <p>สร้าง Modal จาก div เพื่อเรียนรู้</p>
+    </div>
+</div>
+
+<script>
+    // dialog modal
+    const modal = document.getElementById('myModal');
+    const opemBtn = document.getElementById('openBtn');
+    const closeBtn = document.getElementById('closeBtn');
+
+    openBtn.addEventListener('click', () => modal.showModal());
+    closeBtn.addEventListener('click', () => modal.close());
+
+    // div modal
+    function openModal() { document.getElementById('divModal').style.display = 'block'; }
+    function closeModal() { document.getElementById('divModal').style.display = 'none'; }
+</script>
