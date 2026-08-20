@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .dropdown-menu {
+            display: none;
+        }
+        .dropdown-menu.active {
+            display: block;
+        }
+        ul {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <button id="dropdownMenu">เลือกภาษา ▼</button>
+        
+        <ul id="menu" class="dropdown-menu" >
+            <li>ภาษาไทย</li>
+            <li>English</li>
+            <li>日本語</li>
+        </ul>
+        
+    </div>
+    <div class="easy-dropdown">
+        <select>
+            <option>ภาษาไทย</option>
+            <option>English</option>
+        </select>
+    </div>
+</body>
+
+<script>
+    const dropdownMenu = document.getElementById('dropdownMenu')
+    const menu = document.getElementById('menu')
+
+    dropdownMenu.addEventListener('click', () => {
+        menu.classList.toggle('active');
+    })
+
+    document.querySelectorAll('.dropdown-menu li').forEach(item => {
+        item.addEventListener('click', () => {
+            dropdownMenu.textContent = item.textContent + ' ▼'
+            menu.classList.remove('active')
+        })
+    })
+
+    // dropdown.classList.toggle()
+    
+</script>
+</html>
