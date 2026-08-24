@@ -5,20 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>accordion</title>
     <style>
+        .accordion-item {
+            border: 1px solid black;
+            margin: 5px 5px;
+            padding: 10px 5px;
+            
+        }
+        .accordion-item button {
+            cursor: pointer;
+        }
         .accordion-content p {
             padding: 6px 8px;
             cursor: pointer;
             border-radius: 4px;
-            border: 1px black;
-            background-color: black;
-            color: white;
+            /* border: 1px black; */
+            /* background-color: black; */
+            /* color: white; */
         }
         .accordion-content {
-            display: none;
+            /* display: none; */
+            max-height: 0;
+            transition: max-height 0.5s ease, padding 1.0s ease;
+            overflow: hidden;
         }
         .accordion-content.active {
-            display: block;
+            /* display: block; */
+            max-height: 100px;
+            overflow: hidden;
         }
+        
     </style>
 </head>
 <body>
@@ -27,21 +42,21 @@
     <div class="accordion-item">
         <button  class="accordion-btn">หัวข้อ 1 ▼</button>
         <div class="accordion-content">
-            <p>เนื้อหา 1</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum vero omnis voluptate obcaecati distinctio doloremque quo! Quisquam aliquid delectus eos soluta id nobis similique architecto tenetur, distinctio molestiae recusandae odit.</p>
         </div>
     </div>
 
     <div class="accordion-item">
         <button  class="accordion-btn">หัวข้อ 2 ▼</button>
         <div class="accordion-content">
-            <p>เนื้อหา 2</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum vero omnis voluptate obcaecati distinctio doloremque quo! Quisquam aliquid delectus eos soluta id nobis similique architecto tenetur, distinctio molestiae recusandae odit.</p>
         </div>
     </div>
 
     <div class="accordion-item">
         <button  class="accordion-btn">หัวข้อ 3 ▼</button>
         <div class="accordion-content">
-            <p>เนื้อหา 3</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum vero omnis voluptate obcaecati distinctio doloremque quo! Quisquam aliquid delectus eos soluta id nobis similique architecto tenetur, distinctio molestiae recusandae odit.</p>
         </div>
     </div>
 
@@ -51,15 +66,26 @@
     const button = document.querySelectorAll('.accordion-btn')
     const contents = document.querySelectorAll('.accordion-content')
 
+
+    // เปิดได้ที่ละหัวข้อ
+    // button.forEach((btn,index) => {
+    //     btn.addEventListener('click',() =>{
+    //         const isOpen = contents[index].classList.contains('active')
+
+    //         contents.forEach(content => content.classList.remove('active'))
+            
+    //         if (!isOpen) {
+    //             contents[index].classList.add('active')
+    //         }
+    //     })
+    // })
+
+    // เปิดที่ละหัวข้อ(แต่ได้ทีละหลายอัน)
     button.forEach((btn,index) => {
-        btn.addEventListener('click',() =>{
+        btn.addEventListener('click', () => {
             const isOpen = contents[index].classList.contains('active')
 
-            contents.forEach(content => content.classList.remove('active'))
-            
-            if (!isOpen) {
-                contents[index].classList.add('active')
-            }
+            contents[index].classList.toggle('active')
         })
     })
 
