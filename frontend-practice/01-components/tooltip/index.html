@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tooltip</title>
+    <style>
+        .tooltip-contener {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 10px;
+            margin-top: 70px;
+            margin-left: 70px;
+
+        }
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            display: block;
+            border: 1px solid gray;
+            border-radius: 3px;
+            background-color: gray;
+            color: white;
+            padding: 10px 10px;
+            text-align: center;
+            width: 200px;
+            top: -50px;
+            left: -55px;
+            opacity: 0;
+            transition: opacity 0.6s ease ;
+            
+            
+        }
+        .tooltip-contener:hover .tooltip-text{
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="tooltip-contener">
+        Don't Hover Me
+        <span class="tooltip-text">นี่คือข้อความจากผู็ใหญ่บ้าน</span>
+    </div>
+</body>
+</html>
