@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>carousel</title>
+    <style>
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 660px;
+            /* max-width: fit-content; */
+            margin-inline: auto;    
+        }.carousel {
+            display: flex;
+        }
+        .carousel div {
+            flex: 0 0 auto; 
+            width: 200px;
+            height: 300px;
+            /* background: #484747; */
+            margin: 10px;
+            border-radius: 5px;
+            
+        }
+        .silder {
+            margin-top: 50px;
+            max-width: fit-content;
+            margin-inline: auto;
+            
+        }
+        .silder button {
+            background: #15a1e7;
+            color: white;
+            width: 80px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+        }
+        .card1 {
+            background: #dca7a7;
+        }
+        .card2 {
+            background: #97dde4;
+        }
+        .card3 {
+            background: #8dd7bc;
+        }
+        .card4 {
+            background: #aa96de;
+        }
+        </style>
+</head>
+<body>
+    <div class="carousel-wrapper">
+        <div class="carousel">
+            <div class="card1">1</div>
+            <div class="card2">2</div>
+            <div class="card3">3</div>
+            <div class="card4">4</div>
+            <!-- <div class="card5">1</div>
+            <div class="card6">2</div>
+            <div class="card7">3</div>
+            <div class="card8">4</div> -->
+        </div>
+    </div>
+    <div class="silder">
+        <button class="prev">prev</button>
+        <button class="next">next</button>
+    </div>
+</body>
+</html>
