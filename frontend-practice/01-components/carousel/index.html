@@ -65,8 +65,45 @@
         </div>
     </div>
     <div class="silder">
-        <button class="prev">prev</button>
-        <button class="next">next</button>
+        <button id="perv" class="prev">prev</button>
+        <button id="next" class="next">next</button>
     </div>
+    <script>
+        const carousel = document.querySelector(".carousel")
+        const next = document.getElementById("next")
+        const perv = document.getElementById("perv")
+
+        let currentIndex = 0
+        let totalCards = 4
+        let visibleCards = 3
+        let totalSteps  = totalCards - visibleCards + 1
+        // let index = 
+
+        next.addEventListener('click', () => {
+            // if (currentIndex < totalCards - visibleCards) {
+                currentIndex = (currentIndex + 1) % totalSteps
+                carousel.style.transform = `translateX(-${220 * currentIndex}px)`
+                console.log('next')
+                console.log(currentIndex)
+            // }
+        })
+
+        perv.addEventListener('click', () => {
+            // if (currentIndex > 0) {
+                currentIndex = (currentIndex - 1 + totalSteps) % totalSteps
+                carousel.style.transform = `translateX(-${220 * currentIndex}px)`
+                console.log('prev')
+                console.log(currentIndex)
+            // }
+            
+        })    
+        
+        
+        // carousel.forEach((index) => {
+        //     carousel.style.transform = `translateX(-${220 * index}px)`
+        // })
+
+        
+    </script>
 </body>
 </html>
