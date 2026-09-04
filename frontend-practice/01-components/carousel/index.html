@@ -37,6 +37,13 @@
             border: none;
             border-radius: 5px;
         }
+        .carousel > div {
+            transition: transform 0.3s ease;  
+        }
+        .is-middle {
+            transform: scale(1.1);
+            z-index: 1;
+        }
         .card1 {
             background: #dca7a7;
         }
@@ -55,7 +62,7 @@
     <div class="carousel-wrapper">
         <div class="carousel">
             <div class="card1">1</div>
-            <div class="card2">2</div>
+            <div class="card2 is-middle">2</div>
             <div class="card3">3</div>
             <div class="card4">4</div>
             <!-- <div class="card5">1</div>
@@ -73,30 +80,84 @@
         const next = document.getElementById("next")
         const perv = document.getElementById("perv")
 
-        let currentIndex = 0
-        let totalCards = 4
-        let visibleCards = 3
-        let totalSteps  = totalCards - visibleCards + 1
-        // let index = 
+        const  visibleCards = 3
+        const  totalCards = 4
+        const cardWidth = 220 
+
+        // let totalSteps  = totalCards - visibleCards + 1
+        const startIndex = visibleCards
+        let currentIndex = startIndex
+        let isTransitioning = false
+
+        const middleOffset = Math.floor(visibleCards / 2)
+        const middleIndex = currentIndex + middleOffset
+
+
+        const cards = carousel.children 
+        for (let i = 0 ;i < visibleCards ;i++) {
+            const clone = cards[i].cloneNode(true)
+            carousel.appendChild(clone)
+        }
+
+        function UpdateMiddle() {
+            const allCards = carousel.children            
+            const middleIndex = currentIndex + middleOffset
+
+            Array.from(allCards).forEach((card, i) => {
+                if (i === middleIndex) {
+                    card.classList.add('is-middle')
+                } else {
+                    card.classList.remove('is-middle')
+                }
+            })
+        }
+
+        function goTo(index,withTransition = true) {
+            UpdateMiddle()
+            carousel.style.transition = withTransition ? 'transform 0.4s ease' : 'none'
+            carousel.style.transform = `translateX(-${cardWidth * index}px)`
+        }
 
         next.addEventListener('click', () => {
             // if (currentIndex < totalCards - visibleCards) {
-                currentIndex = (currentIndex + 1) % totalSteps
-                carousel.style.transform = `translateX(-${220 * currentIndex}px)`
+                // currentIndex = (currentIndex + 1) % totalSteps
+                if (isTransitioning) return
+                currentIndex++
+                goTo(currentIndex)
                 console.log('next')
                 console.log(currentIndex)
+
+                // carousel.style.transform = `translateX(-${220 * currentIndex}px)`
+                if (currentIndex >= totalCards) {
+                    isTransitioning = true
+                }
             // }
         })
 
         perv.addEventListener('click', () => {
             // if (currentIndex > 0) {
-                currentIndex = (currentIndex - 1 + totalSteps) % totalSteps
-                carousel.style.transform = `translateX(-${220 * currentIndex}px)`
+                // currentIndex = (currentIndex - 1 + totalSteps) % totalSteps
+                if (isTransitioning) return
+                if (currentIndex <= 0 ) return
+
+                currentIndex--
+                goTo(currentIndex)
                 console.log('prev')
                 console.log(currentIndex)
+
+                // carousel.style.transform = `translateX(-${220 * currentIndex}px)`
             // }
             
         })    
+
+        carousel.addEventListener('transitionend', () => {
+            console.log('transitionend fired, currentIndex =', currentIndex)   // เพิ่มบรรทัดนี้
+            if (currentIndex >= totalCards) {
+                currentIndex = 0
+                goTo(currentIndex, false)
+            }
+            isTransitioning = false
+        })
         
         
         // carousel.forEach((index) => {
