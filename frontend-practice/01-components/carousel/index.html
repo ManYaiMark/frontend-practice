@@ -38,11 +38,16 @@
             border-radius: 5px;
         }
         .carousel > div {
-            transition: transform 0.3s ease;  
+            transition: transform 0.3s ease;   
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
         }
         .is-middle {
-            transform: scale(1.1);
+            transform: scale(1.15);
             z-index: 1;
+            font-size: 22px;
         }
         .card1 {
             background: #dca7a7;
@@ -92,13 +97,22 @@
         const middleOffset = Math.floor(visibleCards / 2)
         const middleIndex = currentIndex + middleOffset
 
+        const originalCards = Array.from(carousel.children)   
 
+        // อัพเดทหลัง 1 2 3
         const cards = carousel.children 
         for (let i = 0 ;i < visibleCards ;i++) {
             const clone = cards[i].cloneNode(true)
             carousel.appendChild(clone)
+            
         }
-
+        // อัพเดทหน้า 2 3 4
+        for (let i = 1;i <= visibleCards; i++) {
+            const clone = originalCards[originalCards.length - i].cloneNode(true)
+            carousel.prepend(clone)
+        }
+        
+        // อัพเดท middle 
         function UpdateMiddle() {
             const allCards = carousel.children            
             const middleIndex = currentIndex + middleOffset
@@ -111,12 +125,30 @@
                 }
             })
         }
-
+        
         function goTo(index,withTransition = true) {
+            if (!withTransition) {
+                Array.from(carousel.children).forEach(card => {
+                    card.style.transition = 'none'
+                })
+            }
+
             UpdateMiddle()
             carousel.style.transition = withTransition ? 'transform 0.4s ease' : 'none'
             carousel.style.transform = `translateX(-${cardWidth * index}px)`
+
+            if (!withTransition) {
+                carousel.offsetHeight
+                Array.from(carousel.children).forEach(card => {
+                    card.style.transition = ''
+                })
+            }
         }
+        
+        // อัพเดิม
+        UpdateMiddle()
+        // เนื่องจากเพ่ิมด้านหน้า เลยทำการใช้เพื่อทำการกลับไปในจุดที่ควรจะเป็น 
+        goTo(currentIndex, false)
 
         next.addEventListener('click', () => {
             // if (currentIndex < totalCards - visibleCards) {
@@ -128,7 +160,7 @@
                 console.log(currentIndex)
 
                 // carousel.style.transform = `translateX(-${220 * currentIndex}px)`
-                if (currentIndex >= totalCards) {
+                if (currentIndex >= totalCards + visibleCards) {
                     isTransitioning = true
                 }
             // }
@@ -138,32 +170,35 @@
             // if (currentIndex > 0) {
                 // currentIndex = (currentIndex - 1 + totalSteps) % totalSteps
                 if (isTransitioning) return
-                if (currentIndex <= 0 ) return
-
+                
                 currentIndex--
                 goTo(currentIndex)
                 console.log('prev')
                 console.log(currentIndex)
-
+                
+                if (currentIndex <= 0 ) {
+                    isTransitioning = true
+                }
                 // carousel.style.transform = `translateX(-${220 * currentIndex}px)`
             // }
             
         })    
 
+        // ทำงานตลอดเวลา
         carousel.addEventListener('transitionend', () => {
             console.log('transitionend fired, currentIndex =', currentIndex)   // เพิ่มบรรทัดนี้
-            if (currentIndex >= totalCards) {
-                currentIndex = 0
+            if (currentIndex >= totalCards  + visibleCards) {
+                currentIndex = startIndex
+                goTo(currentIndex, false)
+            } 
+            // อัพเดทหากเป็น 0 อัพเดทให้เป็น
+            if (currentIndex <= 0) {
+                currentIndex = startIndex + totalCards - 3
                 goTo(currentIndex, false)
             }
             isTransitioning = false
         })
         
-        
-        // carousel.forEach((index) => {
-        //     carousel.style.transform = `translateX(-${220 * index}px)`
-        // })
-
         
     </script>
 </body>
