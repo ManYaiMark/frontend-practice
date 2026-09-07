@@ -61,6 +61,32 @@
         .card4 {
             background: #aa96de;
         }
+        .indicators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-inline: auto;
+            /* left: 50%; */
+            /* width: 200px; */
+        }
+
+        .dot {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 50px;
+            margin-left: 50px;
+            margin-right: 50px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            
+        }
+        .dot.active {
+            background: #646464;   /* ให้เห็นชัดว่าใบไหนกำลังโชว์อยู่ */
+        }
         </style>
 </head>
 <body>
@@ -76,6 +102,9 @@
             <div class="card8">4</div> -->
         </div>
     </div>
+    <div class="indicators" id="indicators">
+
+    </div>
     <div class="silder">
         <button id="perv" class="prev">prev</button>
         <button id="next" class="next">next</button>
@@ -84,6 +113,7 @@
         const carousel = document.querySelector(".carousel")
         const next = document.getElementById("next")
         const perv = document.getElementById("perv")
+        const dotsContainer = document.getElementById('indicators')
 
         const  visibleCards = 3
         const  totalCards = 4
@@ -106,11 +136,26 @@
             carousel.appendChild(clone)
             
         }
+
+        // ขยับทุก 2 วิ
+        let autoPlay = setInterval(() => {
+            next.click()
+        },2000)
+
+        // รีเช็ตแล้วเริ่มนับใหม่
+        function resetTime() {
+            clearInterval(autoPlay);
+            autoPlay = setInterval(() => {next.click()},2000);
+        }
+
         // อัพเดทหน้า 2 3 4
         for (let i = 1;i <= visibleCards; i++) {
             const clone = originalCards[originalCards.length - i].cloneNode(true)
             carousel.prepend(clone)
         }
+
+        
+
         
         // อัพเดท middle 
         function UpdateMiddle() {
@@ -125,6 +170,16 @@
                 }
             })
         }
+
+        function updateDots() {
+            const realIndex = currentIndex - startIndex 
+            const allDots = dotsContainer.children 
+
+            Array.from(allDots).forEach((dot,i) => {
+                dot.classList.toggle('active',i === realIndex)
+            })
+        }
+        
         
         function goTo(index,withTransition = true) {
             if (!withTransition) {
@@ -134,8 +189,11 @@
             }
 
             UpdateMiddle()
+            updateDots()
             carousel.style.transition = withTransition ? 'transform 0.4s ease' : 'none'
             carousel.style.transform = `translateX(-${cardWidth * index}px)`
+            // updateDots()
+            resetTime()
 
             if (!withTransition) {
                 carousel.offsetHeight
@@ -144,11 +202,29 @@
                 })
             }
         }
+
+        for (let i = 0;i < totalCards;i++) {
+            const dot = document.createElement('span')
+            dot.classList.add('dot')
+            
+            dot.addEventListener('click', () => {
+                currentIndex = startIndex + i 
+                goTo(currentIndex)
+
+            })
+            dotsContainer.appendChild(dot)
+        }
         
+        updateDots()
+        resetTime()
         // อัพเดิม
         UpdateMiddle()
         // เนื่องจากเพ่ิมด้านหน้า เลยทำการใช้เพื่อทำการกลับไปในจุดที่ควรจะเป็น 
         goTo(currentIndex, false)
+
+
+
+        
 
         next.addEventListener('click', () => {
             // if (currentIndex < totalCards - visibleCards) {
@@ -156,6 +232,7 @@
                 if (isTransitioning) return
                 currentIndex++
                 goTo(currentIndex)
+                // resetTime()
                 console.log('next')
                 console.log(currentIndex)
 
@@ -173,6 +250,7 @@
                 
                 currentIndex--
                 goTo(currentIndex)
+                // resetTime()
                 console.log('prev')
                 console.log(currentIndex)
                 
@@ -190,15 +268,18 @@
             if (currentIndex >= totalCards  + visibleCards) {
                 currentIndex = startIndex
                 goTo(currentIndex, false)
+                // resetTime()
             } 
             // อัพเดทหากเป็น 0 อัพเดทให้เป็น
             if (currentIndex <= 0) {
                 currentIndex = startIndex + totalCards - 3
                 goTo(currentIndex, false)
+                // resetTime()
             }
             isTransitioning = false
         })
         
+
         
     </script>
 </body>
