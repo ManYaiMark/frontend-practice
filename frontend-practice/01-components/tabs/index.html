@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tabs</title>
+    <style>
+        .tab-content {
+            visibility: hidden;
+        }
+        .tab-content.active {
+            visibility:visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-btn active">Tab 1</button>
+        <button class="tab-btn">Tab 2</button>
+        <button class="tab-btn">Tab 3</button>
+    </div>
+
+    <div class="tab-content active">เนื้อหา 1</div>
+    <div class="tab-content">เนื้อหา 2</div>
+    <div class="tab-content">เนื้อหา 3</div>
+</body>
+<script>
+    const content = document.querySelectorAll('.tab-content')
+
+    document.querySelectorAll('.tab-btn').forEach((btn,index) => {
+        // console.log(btn.textContent);
+        // console.log(btn);
+        btn.addEventListener('click', () => {
+            content.forEach(content => content.classList.remove('active'))
+            content[index].classList.toggle('active')
+        })
+    });
+    
+
+    // for (const element of tab_btn) {
+    //     console.log(element.value); 
+    // }
+</script>
+</html>
