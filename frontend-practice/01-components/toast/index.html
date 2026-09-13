@@ -1,0 +1,65 @@
+<style>
+    .toast {
+        display: flex;
+        padding: 20px 80px ;
+        background-color: aqua;
+        /* width: 100px; */
+        /* height: 30px; */
+        left: 43%;
+        top: 49%;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        transform: translateY(20px);
+        /* position: absolute; */
+        transition: opacity 0.3s ease, transform 0.3s ease ;
+        opacity: 0;
+        /* ใช้เมื่อไม่อยากกด */
+        pointer-events: none;
+    }
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        /* z-index: 2; */
+    }
+    .show-toast {
+        /* z-index: 1; */
+        position: absolute;
+        padding: 10px 30px;
+        /* padding: 10px; */
+        left: 50%;
+        top: 50%;
+        background-color: rgb(97, 151, 232);
+        border: 0px;
+        border-radius: 5px;
+        cursor: pointer;
+        
+    }
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* position: relative; */
+    }
+    
+</style>
+<div class="main">
+    <button class="show-toast" id="show-toast">
+        show toast
+    </button>
+    <div class="toast" id="toast">
+        This is toast
+    </div>
+</div>
+<script>
+    const toast = document.querySelector('.toast')
+    const ShowToast = document.querySelector('.show-toast')
+
+    ShowToast.addEventListener('click', ()=> {
+        toast.classList.add('show')
+        setTimeout(()=> {
+            toast.classList.remove('show')
+        },3000)
+    })
+</script>
